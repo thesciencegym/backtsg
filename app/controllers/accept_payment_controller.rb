@@ -1,5 +1,5 @@
 class AcceptPaymentController < ApplicationController
-  before_action :set_txn_codes, only: :transaction_response
+  before_action :set_txn_codes
 
   def transaction_callback
     request.post? ? transaction_proceed : transaction_response
