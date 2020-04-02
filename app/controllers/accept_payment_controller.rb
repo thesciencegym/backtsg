@@ -12,10 +12,11 @@ class AcceptPaymentController < ApplicationController
 
   def transaction_response
     p '******'
+    p @txn
     p params['txn_response_code']
     p '***************'
-    txn_msg = @txn['1']
-    render json: { "payment_response": txn_msg }, status: :ok
+    # txn_msg = @txn['1']
+    render json: { "txn_code": params['txn_response_code']}, status: :ok
   end
 
   private
