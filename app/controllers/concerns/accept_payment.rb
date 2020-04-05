@@ -26,19 +26,10 @@ module AcceptPayment
       "expiration": 3600,
       "order_id": order.accept_order_id, # id obtained in step 2
       "billing_data": {
-        "apartment": '803',
         "email": 'claudette09@exa.com',
-        "floor": '42',
         "first_name": 'Clifford',
-        "street": 'Ethan Land',
-        "building": '8028',
         "phone_number": '+86(8)9135210487',
-        "shipping_method": 'PKG',
-        "postal_code": '01898',
-        "city": 'Jaskolskiburgh',
-        "country": 'CR',
-        "last_name": 'Nicolas',
-        "state": 'Utah'
+        "last_name": 'Nicolas'
       },
       "currency": 'EGP',
       "integration_id": 15483, # card integration_id will be provided upon signing up
