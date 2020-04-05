@@ -20,9 +20,9 @@ class AcceptPaymentController < ApplicationController
     # replace this with wordpresslink
     url = 'https://www.google.com'
     if params['txn_response_code'] == '0'
-      redirect_to url, flash: { success: 'payment done successfully' }
+      redirect_to url, :flash => { :success => 'payment done successfully' }
     else
-      redirect_to url, flash: { error: result }
+      redirect_to url, :flash => { :error => result }
     end
     # render json: { "result": result, "txn_response_code": params['txn_response_code']}, status: :ok
   end
