@@ -19,7 +19,7 @@ class AcceptPaymentController < ApplicationController
     result = @txn[params['txn_response_code']]
     # replace this with wordpresslink
     url = 'https://www.google.com'
-    if params['txn_response_code'].zero?
+    if params['txn_response_code'] == '0'
       redirect_to url, flash: { success: 'payment done successfully' }
     else
       redirect_to url, flash: { error: result }
