@@ -7,16 +7,17 @@ class AcceptPaymentController < ApplicationController
 
   def transaction_proceed
     success = params['obj']['success']
+    if success
+      order = Order.find_by(accept_order_id: params['obj']['order']['id'])
+      order.status = 'succeeded'
+      order.save!
+    end
     render json: { "transaction status": success }, status: :ok
   end
 
   def transaction_response
-    p '******'
-    p @txn
-    p params['txn_response_code']
-    p '***************'
-    # txn_msg = @txn['1']
-    render json: { "txn_code": params['txn_response_code']}, status: :ok
+    result = @txn[params['txn_response_code']]
+    render json: { "result": result, "txn_response_code": params['txn_response_code']}, status: :ok
   end
 
   private

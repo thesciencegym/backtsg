@@ -5,7 +5,7 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  def order_regestration(token, merchant_id, price, tsg_product_id)
+  def order_regestration(token, merchant_id, price, order_id)
     url = 'https://accept.paymobsolutions.com/api/ecommerce/orders'
     body = {
       "auth_token": token, # auth token obtained from step1
@@ -13,7 +13,7 @@ module AcceptPayment
       "merchant_id": merchant_id, # merchant_id obtained from step 1
       "amount_cents": price,
       "currency": 'EGP',
-      "merchant_order_id": tsg_product_id
+      "merchant_order_id": order_id
     }
     Request.post(url, body)
   end
