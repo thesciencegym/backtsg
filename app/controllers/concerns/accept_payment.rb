@@ -1,7 +1,7 @@
 module AcceptPayment
   def user_auth
     url = 'https://accept.paymobsolutions.com/api/auth/tokens'
-    body = { "api_key": ENV['API_KEY'] }
+    body = { "api_key": ENV['ACCEPT_API_KEY'] }
     Request.post(url, body)
   end
 
