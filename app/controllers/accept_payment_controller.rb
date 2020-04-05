@@ -17,7 +17,14 @@ class AcceptPaymentController < ApplicationController
 
   def transaction_response
     result = @txn[params['txn_response_code']]
-    render json: { "result": result, "txn_response_code": params['txn_response_code']}, status: :ok
+    # replace this with wordpresslink
+    url = 'https://www.google.com'
+    if params['txn_response_code'].zero?
+      redirect_to url, flash: { success: 'payment done successfully' }
+    else
+      redirect_to url, flash: { error: result }
+    end
+    # render json: { "result": result, "txn_response_code": params['txn_response_code']}, status: :ok
   end
 
   private
