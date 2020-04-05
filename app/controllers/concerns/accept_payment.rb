@@ -42,7 +42,7 @@ module AcceptPayment
       },
       "currency": 'EGP',
       "integration_id": 15483, # card integration_id will be provided upon signing up
-      "lock_order_when_paid": true
+      "lock_order_when_paid": false
     }
     Request.post(url, body)
   end
