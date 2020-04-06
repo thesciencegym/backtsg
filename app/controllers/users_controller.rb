@@ -21,11 +21,6 @@ class UsersController < ApplicationController
     # render json: p_token, status: :ok
   end
 
-  def update_users
-    User.get_VG_users
-    render json: "done", status: :ok
-  end
-
   private
 
   def order_params
