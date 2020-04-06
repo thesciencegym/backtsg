@@ -15,7 +15,8 @@ namespace :vg_users do
     @users.each do |user|
       new_user = User.find_or_create_by(first_name: user['firstname'], last_name: user['lastname'],
                              email: user['email'], member_id: user['member_id'],
-                             mobile: user['mobile'], vg_user_id: user['user_id'])
+                             mobile: user['mobile'], vg_user_id: user['user_id'],
+                             gender: user['gender'])
       p "user #{new_user.email} is found or created"
     end
   end

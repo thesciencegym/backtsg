@@ -5,20 +5,26 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  def order_regestration(token, merchant_id, price, order_id)
+  def order_regestration(token, merchant_id, product, order_id)
     url = 'https://accept.paymobsolutions.com/api/ecommerce/orders'
     body = {
       "auth_token": token, # auth token obtained from step1
       "delivery_needed": false,
       "merchant_id": merchant_id, # merchant_id obtained from step 1
-      "amount_cents": price,
+      "amount_cents": product.price,
       "currency": 'EGP',
-      "merchant_order_id": order_id
+      "merchant_order_id": order_id,
+      "items": [
+        {
+          name: product.name,
+          amount_cents: product.price
+        }
+      ]
     }
     Request.post(url, body)
   end
 
-  def payment_token(token, order)
+  def payment_token(token, order, user)
     url = 'https://accept.paymobsolutions.com/api/acceptance/payment_keys'
     body = {
       "auth_token": token, # auth token obtained from step1
@@ -27,15 +33,15 @@ module AcceptPayment
       "order_id": order.accept_order_id, # id obtained in step 2
       "billing_data": {
         "apartment": '803',
-        "email": 'claudette09@exa.com',
+        "email": user.email,
         "floor": '42',
-        "first_name": 'Clifford',
+        "first_name": user.first_name,
         "street": 'Ethan Land',
         "building": '8028',
-        "phone_number": '+86(8)9135210487',
-        "city": 'Jaskolskiburgh',
+        "phone_number": user.mobile,
+        "city": 'cairo',
         "country": 'EG',
-        "last_name": 'Nicolas'
+        "last_name": user.last_name
       },
       "currency": 'EGP',
       "integration_id": 15483, # card integration_id will be provided upon signing up
