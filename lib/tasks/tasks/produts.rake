@@ -24,5 +24,8 @@ namespace :products do
     product = Product.create!(code: '5', name: 'Immunity Enhancing Nutrition Package', price: 60000, duration: 4,
                               credits: { "nutrition-session-4": '4'})
     p "#{product.name} is added"
+
+    product = Product.create!(code: '6', name: 'One Class', price: 15000)
+    p "#{product.name} is added"
   end
 end
