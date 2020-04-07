@@ -13,10 +13,12 @@ namespace :vg_users do
       @users += response['result']
     end
     @users.each do |user|
-      u = User.find_by(email: user['email'])
-      u.city = user['place']
-      u.save!
-      p "user #{u.email} is updated"
+      new_user = User.create!(first_name: user['firstname'], last_name: user['lastname'],
+                            email: user['email'], member_id: user['member_id'],
+                            mobile: user['mobile'], vg_user_id: user['user_id'],
+                            gender: user['gender'], city: user['place'],
+                            timestamp_edit: user['timestamp_edit'])
+      p "user #{new_user.email} is created"
     end
   end
 

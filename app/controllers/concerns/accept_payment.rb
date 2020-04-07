@@ -44,7 +44,7 @@ module AcceptPayment
         "last_name": user.last_name
       },
       "currency": 'EGP',
-      "integration_id": 15483, # card integration_id will be provided upon signing up
+      "integration_id": ENV['ACCEPT_INTEGRATION_ID'], # card integration_id will be provided upon signing up
       "lock_order_when_paid": false
     }
     Request.post(url, body)

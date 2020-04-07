@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     order = order_regestration(authentication['token'], authentication['profile']['id'],
                                @product, order_record.id)
     puts "order", order
+    render json: "order not created", status: :ok if order.nil? || order['id'].nil?
     order_record.accept_order_id = order['id']
     order_record.save!
     p_token = payment_token(authentication['token'], order_record, @user)
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
 
     order_record.payment_token = p_token['token']
     order_record.save!
-    url = 'https://accept.paymobsolutions.com/api/acceptance/iframes/25190?payment_token=' + p_token['token']
+    url = "https://accept.paymobsolutions.com/api/acceptance/iframes/#{ENV['ACCEPT_IFRAME_ID']}?payment_token=" + p_token['token']
     redirect_to url
     # render json: p_token, status: :ok
   end
@@ -38,7 +39,6 @@ class UsersController < ApplicationController
   def create_user
     User.create!(email: order_params[:email], first_name: order_params[:first_name],
                  last_name: order_params[:last_name], mobile: order_params[:phone_number],
-                 gender: order_params[:gender], city: order_params[:city],
-                 timestamp_edit: order_params[:timestamp_edit])
+                 gender: order_params[:gender], city: order_params[:city])
   end
 end

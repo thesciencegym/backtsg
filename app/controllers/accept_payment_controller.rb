@@ -7,7 +7,7 @@ class AcceptPaymentController < ApplicationController
       @order.status = 'succeeded'
       @order.save!
       @product = Product.find(@order.product_id)
-      @user = User.find(@order.user_id)
+      @user = @order.user
 
       unless @user.member_id
         create_vg_user
