@@ -9,6 +9,8 @@ class UsersController < ApplicationController
       @user = User.find_by(email: order_params[:email])
       @user.nil? ? @user = create_user : @user
     end
+    @user.update(first_name: order_params[:first_name],last_name: order_params[:last_name], mobile: order_params[:phone_number])
+    
     authentication = user_auth
     order_record = OrderService.create(@user.id, @product, 'pending')
     order = order_regestration(authentication['token'], authentication['profile']['id'],
@@ -18,7 +20,7 @@ class UsersController < ApplicationController
     order_record.save!
     p_token = payment_token(authentication['token'], order_record, @user)
     puts "p_token", p_token
-    
+
     order_record.payment_token = p_token['token']
     order_record.save!
     url = 'https://accept.paymobsolutions.com/api/acceptance/iframes/25190?payment_token=' + p_token['token']
