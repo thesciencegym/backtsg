@@ -13,9 +13,12 @@ class UsersController < ApplicationController
     order_record = OrderService.create(@user.id, @product, 'pending')
     order = order_regestration(authentication['token'], authentication['profile']['id'],
                                @product, order_record.id)
+    puts "order", order
     order_record.accept_order_id = order['id']
     order_record.save!
     p_token = payment_token(authentication['token'], order_record, @user)
+    puts "p_token", p_token
+    
     order_record.payment_token = p_token['token']
     order_record.save!
     url = 'https://accept.paymobsolutions.com/api/acceptance/iframes/25190?payment_token=' + p_token['token']
