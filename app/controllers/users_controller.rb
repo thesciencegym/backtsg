@@ -5,7 +5,9 @@ class UsersController < ApplicationController
     @product = Product.find_by(code: order_params[:product_code])
     @user = User.find_by(email: order_params[:email])
     unless @user
-      @user = create_user
+      User.get_VG_users
+      @user = User.find_by(email: order_params[:email])
+      @user.nil? ? @user = create_user : @user
     end
     authentication = user_auth
     order_record = OrderService.create(@user.id, @product, 'pending')
@@ -24,12 +26,14 @@ class UsersController < ApplicationController
   private
 
   def order_params
-    params.permit(:email, :first_name, :last_name, :phone_number, :gender, :product_code)
+    params.permit(:email, :first_name, :last_name, :phone_number, :gender,
+                  :product_code, :city)
   end
 
   def create_user
     User.create!(email: order_params[:email], first_name: order_params[:first_name],
                  last_name: order_params[:last_name], mobile: order_params[:phone_number],
-                 gender: order_params[:gender])
+                 gender: order_params[:gender], city: order_params[:city],
+                 timestamp_edit: order_params[:timestamp_edit])
   end
 end
