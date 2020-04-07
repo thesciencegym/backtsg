@@ -1,27 +1,29 @@
 require 'securerandom'
 class AcceptPaymentController < ApplicationController
   def transaction_callback
-    success = params['obj']['success']
-    if success
-      @order = Order.find_by(accept_order_id: params['obj']['order']['id'])
-      @order.status = 'succeeded'
-      @order.save!
-      @product = Product.find(@order.product_id)
-      @user = @order.user
+    if check_hmac
+      success = params['obj']['success']
+      if success
+        @order = Order.find_by(accept_order_id: params['obj']['order']['id'])
+        @order.status = 'succeeded'
+        @order.save!
+        @product = Product.find(@order.product_id)
+        @user = @order.user
 
-      unless @user.member_id
-        create_vg_user
-      end
+        unless @user.member_id
+          create_vg_user
+        end
 
-      if @product.credits
-        @product.credits.each do |key, value|
-          response = add_user_credits(key, value)
-          p "credit request sent and result is #{response}"
+        if @product.credits
+          @product.credits.each do |key, value|
+            response = add_user_credits(key, value)
+            p "credit request sent and result is #{response}"
+          end
         end
       end
-    end
 
-    render json: { "transaction status": success }, status: :ok
+      render json: { "transaction status": success }, status: :ok
+    end
   end
 
   private
@@ -55,5 +57,19 @@ class AcceptPaymentController < ApplicationController
       "client_id": SecureRandom.uuid
     }
     Request.put(url, body)
+  end
+
+  def check_hmac
+    hmac = params['hmac']
+    data = params['obj']
+    string_conc = data['amount_cents'].to_s + data['created_at'] + data ['currency'] + 
+                  data['error_occured'].to_s + data['has_parent_transaction'].to_s + data['id'].to_s +
+                  data['integration_id'].to_s + data['is_3d_secure'].to_s + data['is_auth'].to_s +
+                  data['is_capture'].to_s + data['is_refunded'].to_s + data['is_standalone_payment'].to_s +
+                  data['is_voided'].to_s + data['order']['id'].to_s + data['owner'].to_s + data['pending'].to_s +
+                  data['source_data']['pan'].to_s + data['source_data']['sub_type'] +
+                  data['source_data']['type'] + data['success'].to_s
+    calc_hmac = OpenSSL::HMAC.hexdigest('SHA512', ENV['ACCEPT_HMAC_SECRET'], string_conc)
+    hmac == calc_hmac
   end
 end
