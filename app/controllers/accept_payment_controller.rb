@@ -50,7 +50,7 @@ class AcceptPaymentController < ApplicationController
     url = 'https://api.virtuagym.com/api/v1/club/25396/credit'
     body = {
       "member_id": @user.member_id,
-      "credit_amount": credit_amount,
+      "credit_amount": credit_amount.to_i,
       "service_type": service_type,
       "client_id": SecureRandom.uuid
     }
