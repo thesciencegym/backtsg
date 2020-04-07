@@ -4,7 +4,10 @@ class AcceptPaymentController < ApplicationController
     if check_hmac
       success = params['obj']['success']
       if success
-        @order = Order.find_by(accept_order_id: params['obj']['order']['id'])
+        order_id = params['obj']['order']['id']
+        return if order_id.nil?
+
+        @order = Order.find_by(accept_order_id: order_id)
         @order.status = 'succeeded'
         @order.save!
         @product = Product.find(@order.product_id)
