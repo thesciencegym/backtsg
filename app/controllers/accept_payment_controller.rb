@@ -21,8 +21,9 @@ class AcceptPaymentController < ApplicationController
           end
         end
       end
-
       render json: { "transaction status": success }, status: :ok
+    else
+      render json: "unmatched HMAC", status: :ok
     end
   end
 
