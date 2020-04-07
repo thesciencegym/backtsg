@@ -6,8 +6,8 @@ class AcceptPaymentController < ApplicationController
       @order = Order.find_by(accept_order_id: params['obj']['order']['id'])
       @order.status = 'succeeded'
       @order.save!
-      @product = Product.find(order.product_id)
-      @user = User.find(order.user_id)
+      @product = Product.find(@order.product_id)
+      @user = User.find(@order.user_id)
 
       unless @user.member_id
         create_vg_user
