@@ -14,6 +14,7 @@ class AcceptPaymentController < ApplicationController
         @user = @order.user
 
         unless @user.member_id
+          User.get_VG_users
           create_vg_user
         end
 
