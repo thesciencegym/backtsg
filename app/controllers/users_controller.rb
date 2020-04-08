@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
     order_record.payment_token = p_token['token']
     order_record.save!
-    url = "https://accept.paymobsolutions.com/api/acceptance/iframes/#{ENV['ACCEPT_IFRAME_ID']}?payment_token=" + p_token['token']
+    url = "https://accept.paymobsolutions.com/api/acceptance/iframes/#{ENV['ACCEPT_IFRAME_ID']}?payment_token=" + p_token['token'] + "&amount=" + (@product.price/100)
     redirect_to url
     # render json: p_token, status: :ok
   end
