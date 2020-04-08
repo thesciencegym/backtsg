@@ -13,12 +13,14 @@ namespace :vg_users do
       @users += response['result']
     end
     @users.each do |user|
-      new_user = User.create!(first_name: user['firstname'], last_name: user['lastname'],
-                            email: user['email'], member_id: user['member_id'],
-                            mobile: user['mobile'], vg_user_id: user['user_id'],
-                            gender: user['gender'], city: user['place'],
-                            timestamp_edit: user['timestamp_edit'])
-      p "user #{new_user.email} is created"
+      unless User.exists?(email: user['email'])
+        new_user = User.create!(first_name: user['firstname'], last_name: user['lastname'],
+                              email: user['email'], member_id: user['member_id'],
+                              mobile: user['mobile'], vg_user_id: user['user_id'],
+                              gender: user['gender'], city: user['place'],
+                              timestamp_edit: user['timestamp_edit'])
+        p "user #{new_user.email} is created"
+      end
     end
   end
 

@@ -1,6 +1,7 @@
 require 'net/http'
 require 'uri'
 class User < ApplicationRecord
+  validates :email, uniqueness: true
   has_many :orders
 
   def self.get_VG_users
