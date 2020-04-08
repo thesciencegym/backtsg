@@ -39,6 +39,6 @@ class UsersController < ApplicationController
   def create_user
     User.create!(email: order_params[:email], first_name: order_params[:first_name],
                  last_name: order_params[:last_name], mobile: order_params[:phone_number],
-                 gender: order_params[:gender], city: order_params[:city])
+                 gender: order_params[:gender], city: order_params[:city], timestamp_edit: (Time.now.to_f.round(3)*1000).to_i)
   end
 end
