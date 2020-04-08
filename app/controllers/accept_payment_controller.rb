@@ -10,7 +10,7 @@ class AcceptPaymentController < ApplicationController
         @order = Order.find_by(accept_order_id: order_id)
         @order.status = 'succeeded'
         @order.save!
-        @product = Product.find(@order.product_id)
+        @product = @order.product
         @user = @order.user
 
         unless @user.member_id

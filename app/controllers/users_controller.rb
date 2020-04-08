@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     order = order_regestration(authentication['token'], authentication['profile']['id'],
                                @product, order_record.id)
     puts "order", order
-    render json: "order not created", status: :ok if order.nil? || order['id'].nil?
+    render "order not created", status: :ok and return if order.nil? || order['id'].nil?
     order_record.accept_order_id = order['id']
     order_record.save!
     p_token = payment_token(authentication['token'], order_record, @user)
