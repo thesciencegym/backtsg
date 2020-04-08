@@ -32,14 +32,14 @@ module AcceptPayment
       "expiration": 3600,
       "order_id": order.accept_order_id, # id obtained in step 2
       "billing_data": {
-        "apartment": '803',
+        "apartment": '1',
         "email": user.email,
-        "floor": '42',
+        "floor": '1',
         "first_name": user.first_name,
-        "street": 'Ethan Land',
-        "building": '8028',
+        "street": 'street',
+        "building": '1',
         "phone_number": user.mobile,
-        "city": 'cairo',
+        "city": 'city',
         "country": 'EG',
         "last_name": user.last_name
       },
