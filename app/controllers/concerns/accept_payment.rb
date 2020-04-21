@@ -40,8 +40,8 @@ module AcceptPayment
         "building": 'NA',
         "phone_number": user.mobile,
         "postal_code": 'NA', 
-        "city": 'NA',
-        "country": 'NA',
+        "city": user.city,
+        "country": 'Egypt',
         "state": 'NA',
         "last_name": user.last_name
       },
