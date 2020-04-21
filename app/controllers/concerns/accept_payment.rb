@@ -39,7 +39,6 @@ module AcceptPayment
         "street": 'NA',
         "building": 'NA',
         "phone_number": user.mobile,
-        "shipping_method": 'PKG', 
         "postal_code": 'NA', 
         "city": 'NA',
         "country": 'NA',
