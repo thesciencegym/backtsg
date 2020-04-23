@@ -9,10 +9,11 @@ class UsersController < ApplicationController
       @user = User.find_by(email: order_params[:email])
       @user.nil? ? @user = create_user : @user
     end
-    @user.update(first_name: order_params[:first_name],last_name: order_params[:last_name], mobile: order_params[:phone_number])
+    @user.update(first_name: order_params[:first_name],last_name: order_params[:last_name], mobile: order_params[:phone_number], gender: order_params[:gender], city: order_params[:city])
     
     authentication = user_auth
-    special_price = true if @product.code == '7' && @user.member?
+    special_price = true if @product.special_price && @user.member_id && @user.member?
+    puts "special_price", special_price
     order_record = OrderService.create(@user.id, @product, 'pending', special_price)
     order = order_regestration(authentication['token'], authentication['profile']['id'],
                                @product, order_record.id, special_price)
