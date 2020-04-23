@@ -5,19 +5,20 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  def order_regestration(token, merchant_id, product, order_id)
+  def order_regestration(token, merchant_id, product, order_id, special_price)
     url = 'https://accept.paymobsolutions.com/api/ecommerce/orders'
+    price = special_price ? product.special_price : product.price
     body = {
       "auth_token": token, # auth token obtained from step1
       "delivery_needed": false,
       "merchant_id": merchant_id, # merchant_id obtained from step 1
-      "amount_cents": product.price,
+      "amount_cents": price,
       "currency": 'EGP',
       "merchant_order_id": order_id,
       "items": [
         {
           name: product.name,
-          amount_cents: product.price
+          amount_cents: price
         }
       ]
     }

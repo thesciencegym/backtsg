@@ -32,4 +32,16 @@ class User < ApplicationRecord
     res = Net::HTTP.get_response(uri)
     JSON.parse(res.body)
   end
+
+  def member?
+    url = "https://api.virtuagym.com/api/v1/club/25396/member/#{self.member_id}"
+    uri = URI(url)
+    params = { :api_key => ENV['VG_API_KEY'],
+               :club_secret => ENV['VG_CLUB_SECRET'],
+               :with => 'active_memberships' }
+    uri.query = URI.encode_www_form(params)
+    res = Net::HTTP.get_response(uri)
+    response = JSON.parse(res.body)
+    !response['result'][0]['memberships'].empty?
+  end
 end
