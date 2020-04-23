@@ -31,7 +31,7 @@ namespace :products do
     # p "#{product.name} is added"
 
     product = Product.create!(code: '7', name: 'March To Your Goal', price: 220000, duration: 4,
-                              credits: { "nutrition": '4' }, special_price: 120000)
+                              credits: { "nutrition-session-4": '4' }, special_price: 120000)
     p "#{product.name} is added"
   end
 end
