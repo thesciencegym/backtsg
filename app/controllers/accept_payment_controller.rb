@@ -5,9 +5,11 @@ class AcceptPaymentController < ApplicationController
       success = params['obj']['success']
       if success
         order_id = params['obj']['order']['id']
-        return if order_id.nil?
+        render json: "order id is nil", status: :ok and return if order_id.nil?
 
         @order = Order.find_by(accept_order_id: order_id)
+        render json: "order is nil", status: :ok and return if @order.nil?
+
         @order.status = 'succeeded'
         @order.save!
         @product = @order.product
