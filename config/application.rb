@@ -26,7 +26,7 @@ module TsgBackend
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:3000', 'https://tsg2go.thesciencegym.net', 'https://thesciencegym.net'
+        origins 'http://localhost:3000', 'https://tsg2go.thesciencegym.net', 'https://www.thesciencegym.net', 'https://thesciencegym.net'
         resource '*',
           :headers => :any,
           :methods => [:get, :post, :options, :delete, :put, :head]
