@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_095431) do
+ActiveRecord::Schema.define(version: 2020_05_13_133151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_095431) do
     t.string "gender"
     t.bigint "timestamp_edit"
     t.string "city"
+    t.string "country"
     t.index ["email"], name: "index_users_on_email"
   end
 

@@ -42,7 +42,7 @@ module AcceptPayment
         "phone_number": user.mobile,
         "postal_code": 'NA', 
         "city": user.city,
-        "country": 'Egypt',
+        "country": user.country,
         "state": 'NA',
         "last_name": user.last_name
       },

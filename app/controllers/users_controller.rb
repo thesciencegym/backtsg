@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       @user = User.find_by(email: order_params[:email])
       @user.nil? ? @user = create_user : @user
     end
-    @user.update(first_name: order_params[:first_name],last_name: order_params[:last_name], mobile: order_params[:phone_number], gender: order_params[:gender], city: order_params[:city])
+    @user.update(first_name: order_params[:first_name],last_name: order_params[:last_name], mobile: order_params[:phone_number], gender: order_params[:gender], city: order_params[:city], country: order_params[:country])
     
     authentication = user_auth
     special_price = true if @product.special_price && @user.member_id && @user.member?
@@ -36,12 +36,13 @@ class UsersController < ApplicationController
 
   def order_params
     params.permit(:email, :first_name, :last_name, :phone_number, :gender,
-                  :product_code, :city)
+                  :product_code, :city, :country)
   end
 
   def create_user
     User.create!(email: order_params[:email], first_name: order_params[:first_name],
                  last_name: order_params[:last_name], mobile: order_params[:phone_number],
-                 gender: order_params[:gender], city: order_params[:city], timestamp_edit: (Time.now.to_f.round(3)*1000).to_i)
+                 gender: order_params[:gender], city: order_params[:city], country: order_params[:country],
+                 timestamp_edit: (Time.now.to_f.round(3)*1000).to_i)
   end
 end
