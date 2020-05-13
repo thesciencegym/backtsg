@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   def order
     @product = Product.find_by(code: order_params[:product_code])
     @user = User.find_by(email: order_params[:email])
-    puts "country",  order_params[:country]
     unless @user
       User.get_VG_users
       @user = User.find_by(email: order_params[:email])
