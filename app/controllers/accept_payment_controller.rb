@@ -33,6 +33,38 @@ class AcceptPaymentController < ApplicationController
     end
   end
 
+  def cash_transaction_callback
+    if check_hmac
+      if params['obj']['success'] && !params['obj']['pending']
+        order_id = params['obj']['order']['id']
+        render json: "order id is nil", status: :ok and return if order_id.nil?
+
+        @order = Order.find_by(accept_order_id: order_id)
+        render json: "order is nil", status: :ok and return if @order.nil?
+
+        @order.status = 'succeeded'
+        @order.save!
+      end
+    else
+      render json: "unmatched HMAC", status: :ok
+    end
+  end
+
+  def delivery_callback
+    if check_hmac
+      order_id = params['obj']['order_id']
+      render json: "order id is nil", status: :ok and return if order_id.nil?
+
+      @order = Order.find_by(accept_order_id: order_id)
+      render json: "order is nil", status: :ok and return if @order.nil?
+
+      @order.delivery_status = params['obj']['order_delivery_status']
+      @order.save!
+    else
+      render json: "unmatched HMAC", status: :ok
+    end
+  end
+
   private
 
   def create_vg_user

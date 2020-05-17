@@ -25,7 +25,7 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  def payment_token(token, order, user)
+  def payment_token(token, order, user, integration_id, billing_data)
     url = 'https://accept.paymobsolutions.com/api/acceptance/payment_keys'
     body = {
       "auth_token": token, # auth token obtained from step1
@@ -33,23 +33,54 @@ module AcceptPayment
       "expiration": 3600,
       "order_id": order.accept_order_id, # id obtained in step 2
       "billing_data": {
-        "apartment": 'NA',
-        "email": user.email,
-        "floor": 'NA',
         "first_name": user.first_name,
-        "street": 'NA',
-        "building": 'NA',
+        "last_name": user.last_name,
         "phone_number": user.mobile,
-        "postal_code": 'NA', 
-        "city": user.city,
-        "country": user.country,
-        "state": 'NA',
-        "last_name": user.last_name
+        "email": user.email,
+        "street": billing_data['street'],
+        "building": billing_data['building'],
+        "apartment": billing_data['apartment'],
+        "floor": billing_data['floor'],
+        "postal_code": billing_data['postal_code'],
+        "city": billing_data['city'],
+        "state": billing_data['state'],
+        "country": 'EG'
       },
       "currency": 'EGP',
-      "integration_id": ENV['ACCEPT_INTEGRATION_ID'], # card integration_id will be provided upon signing up
+      "integration_id": integration_id, # card integration_id will be provided upon signing up
       "lock_order_when_paid": false
     }
     Request.post(url, body)
   end
+
+  def cash_pay_request(p_token)
+    url = 'https://accept.paymobsolutions.com/api/acceptance/payments/pay'
+    body = {
+      "source": {
+        "identifier": "cash",
+        "subtype": "CASH",
+      },
+      "payment_token": p_token
+    }
+    Request.post(url, body)
+  end
+
+  # private
+
+  # def delivery_payload(shipping_data, user)
+  #   {
+  #     "apartment": shipping_data['apartment'],
+  #     "email": user.email,
+  #     "floor": shipping_data['floor'],
+  #     "first_name": user.first_name,
+  #     "street": shipping_data['street'],
+  #     "building": shipping_data['building'],
+  #     "phone_number": user.mobile,
+  #     "postal_code": shipping_data['postal_code'],
+  #     "city": shipping_data['city'],
+  #     "country": 'EG',
+  #     "last_name": user.last_name,
+  #     "state": shipping_data['state']
+  #   }
+  # end
 end
