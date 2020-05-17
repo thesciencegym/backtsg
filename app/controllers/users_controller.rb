@@ -26,9 +26,6 @@ class UsersController < ApplicationController
     @order_record.save!
 
     integration_id = params[:payment_method] == 'card' ? ENV['ACCEPT_INTEGRATION__CARD_ID'] : ENV['ACCEPT_INTEGRATION__CASH_ID']
-    p '***************'
-    p integration_id
-    p '****************'
     @p_token = payment_token(authentication['token'], @order_record, @user,
                              integration_id, params[:billing_data])
     ### payment
