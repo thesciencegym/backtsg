@@ -43,6 +43,8 @@ class UsersController < ApplicationController
   def cash_payment
     pay_cash_res = cash_pay_request(@p_token['token'])
     if pay_cash_res['pending'] == 'true'
+      @order_record.delivery_status = 'Scheduled'
+      @order_record.save!
       render json: {"message": 'your order has been scheduled successfully'}, status: :ok
     else
       render json: {"message": 'there was a problem in scheduling
