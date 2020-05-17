@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   post 'payment_webhook', to: 'accept_payment#transaction_callback'
   post 'cash_transaction_callback', to: 'accept_payment#cash_transaction_callback'
   post 'delivery_callback', to: 'accept_payment#delivery_callback'
+  get 'order/:id', to: 'orders#show'
 end
