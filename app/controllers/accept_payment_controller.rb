@@ -59,7 +59,7 @@ class AcceptPaymentController < ApplicationController
       render json: "order is nil", status: :ok and return if @order.nil?
 
       d_status = params['obj']['order_delivery_status']
-      @order.delivery_status = d_status.gsub! /\s+/, '_'
+      @order.delivery_status = d_status.gsub!(/\s+/, '_')
       @order.save!
     else
       render json: "unmatched HMAC", status: :ok

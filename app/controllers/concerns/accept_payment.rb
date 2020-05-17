@@ -5,12 +5,12 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  def order_regestration(token, merchant_id, product, order_id, special_price)
+  def order_regestration(token, merchant_id, product, order_id, special_price, shipping_data, user)
     url = 'https://accept.paymobsolutions.com/api/ecommerce/orders'
     price = special_price ? product.special_price : product.price
     body = {
       "auth_token": token, # auth token obtained from step1
-      "delivery_needed": false,
+      "delivery_needed": product.require_shipping,
       "merchant_id": merchant_id, # merchant_id obtained from step 1
       "amount_cents": price,
       "currency": 'EGP',
@@ -22,6 +22,9 @@ module AcceptPayment
         }
       ]
     }
+    if product.require_shipping
+      body["shipping_data"] = delivery_payload(shipping_data, user)
+    end
     Request.post(url, body)
   end
 
@@ -65,22 +68,22 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  # private
+  private
 
-  # def delivery_payload(shipping_data, user)
-  #   {
-  #     "apartment": shipping_data['apartment'],
-  #     "email": user.email,
-  #     "floor": shipping_data['floor'],
-  #     "first_name": user.first_name,
-  #     "street": shipping_data['street'],
-  #     "building": shipping_data['building'],
-  #     "phone_number": user.mobile,
-  #     "postal_code": shipping_data['postal_code'],
-  #     "city": shipping_data['city'],
-  #     "country": 'EG',
-  #     "last_name": user.last_name,
-  #     "state": shipping_data['state']
-  #   }
-  # end
+  def delivery_payload(shipping_data, user)
+    {
+      "apartment": shipping_data['apartment'],
+      "email": user.email,
+      "floor": shipping_data['floor'],
+      "first_name": user.first_name,
+      "street": shipping_data['street'],
+      "building": shipping_data['building'],
+      "phone_number": user.mobile,
+      "postal_code": shipping_data['postal_code'],
+      "city": shipping_data['city'],
+      "country": 'EG',
+      "last_name": user.last_name,
+      "state": shipping_data['state']
+    }
+  end
 end
