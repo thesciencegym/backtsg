@@ -45,10 +45,9 @@ class UsersController < ApplicationController
     if pay_cash_res['pending'] == 'true'
       @order_record.delivery_status = 'Scheduled'
       @order_record.save!
-      render json: {"message": 'your order has been scheduled successfully'}, status: :ok
+      render json: {"success": true}, status: :ok
     else
-      render json: {"message": 'there was a problem in scheduling
-                                your order please try again'}, status: :unprocessable_entity
+      render json: {"success": false}, status: :ok
     end
   end
 
