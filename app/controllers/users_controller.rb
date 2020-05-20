@@ -2,6 +2,10 @@ class UsersController < ApplicationController
   include AcceptPayment
 
   def order
+    unless params[:payment_method] == 'card' || params[:payment_method] == 'cash'
+      render json: { "message": 'payment availible only in cash or card please input the right method' }, status: :unprocessable_entity && return
+    end
+
     @product = Product.find_by(code: order_params[:product_code])
     @user = User.find_by(email: order_params[:email])
     unless @user

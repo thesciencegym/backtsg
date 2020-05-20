@@ -14,18 +14,7 @@ class AcceptPaymentController < ApplicationController
         @order.save!
         @product = @order.product
         @user = @order.user
-
-        unless @user.member_id
-          User.get_VG_users
-          create_vg_user
-        end
-
-        if @product.credits
-          @product.credits.each do |key, value|
-            response = add_user_credits(key, value)
-            p "credit request sent and result is #{response}"
-          end
-        end
+        assign_vg_credits if @product.credits
       end
       render json: { "transaction status": success }, status: :ok
     else
@@ -44,6 +33,10 @@ class AcceptPaymentController < ApplicationController
 
         @order.status = 'succeeded'
         @order.save!
+        @product = @order.product
+        @user = @order.user
+        assign_vg_credits if @product.credits
+        render json: { "transaction status": 'success' }, status: :ok
       end
     else
       render json: "unmatched HMAC", status: :ok
@@ -61,6 +54,7 @@ class AcceptPaymentController < ApplicationController
       d_status = params['obj']['order_delivery_status']
       @order.delivery_status = d_status.gsub!(/\s+/, '_')
       @order.save!
+      render json: { "delivery status": d_status }, status: :ok
     else
       render json: "unmatched HMAC", status: :ok
     end
@@ -111,5 +105,17 @@ class AcceptPaymentController < ApplicationController
                   data['source_data']['type'] + data['success'].to_s
     calc_hmac = OpenSSL::HMAC.hexdigest('SHA512', ENV['ACCEPT_HMAC_SECRET'], string_conc)
     hmac == calc_hmac
+  end
+
+  def assign_vg_credits
+    unless @user.member_id
+      User.get_VG_users
+      @user = @order.user
+      create_vg_user unless @user.member_id
+    end
+    @product.credits.each do |key, value|
+      response = add_user_credits(key, value)
+      p "credit request sent and result is #{response}"
+    end
   end
 end

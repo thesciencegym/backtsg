@@ -47,7 +47,7 @@ module AcceptPayment
         "postal_code": billing_data['postal_code'],
         "city": billing_data['city'],
         "state": billing_data['state'],
-        "country": 'EG'
+        "country": billing_data['country']
       },
       "currency": 'EGP',
       "integration_id": integration_id, # card integration_id will be provided upon signing up
@@ -81,7 +81,7 @@ module AcceptPayment
       "phone_number": user.mobile,
       "postal_code": shipping_data['postal_code'],
       "city": shipping_data['city'],
-      "country": 'EG',
+      "country": billing_data['country'],
       "last_name": user.last_name,
       "state": shipping_data['state']
     }

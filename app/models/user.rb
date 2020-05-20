@@ -20,6 +20,11 @@ class User < ApplicationRecord
                             timestamp_edit: user['timestamp_edit'])
         p "user #{new_user.email} is found or created"
       end
+
+      if user_in_db = User.find_by(email: user['email']) && !user_in_db.member_id
+        user_in_db.update(member_id: user['member_id'], vg_user_id: user['user_id'],
+                          timestamp_edit: user['timestamp_edit'])
+      end
     end
   end
 
