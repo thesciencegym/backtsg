@@ -35,7 +35,7 @@ class AcceptPaymentController < ApplicationController
         @order.save!
         @product = @order.product
         @user = @order.user
-        assign_vg_credits if @product.require_shipping
+        assign_vg_credits unless @product.require_shipping
         render json: { "transaction status": 'success' }, status: :ok
       end
     else
