@@ -19,11 +19,11 @@ class UsersController < ApplicationController
 
     special_price = true if @product.special_price && @user.member_id && @user.member?
 
-    @order_record = OrderService.create(@user.id, @product, 'pending', special_price)
+    @order_record = OrderService.create(@user.id, @product, 'pending', special_price, params[:payment_method])
     ### payment
     authentication = user_auth
     order = order_regestration(authentication['token'], authentication['profile']['id'],
-                               @product, @order_record.id, special_price, params[:billing_data], @user)
+                               @product, @order_record, special_price, params[:billing_data], @user)
 
     render json: order, status: :ok and return if order.nil? || order['id'].nil?
     @order_record.accept_order_id = order['id']

@@ -5,7 +5,7 @@ module AcceptPayment
     Request.post(url, body)
   end
 
-  def order_regestration(token, merchant_id, product, order_id, special_price, shipping_data, user)
+  def order_regestration(token, merchant_id, product, order, special_price, shipping_data, user)
     url = 'https://accept.paymobsolutions.com/api/ecommerce/orders'
     price = special_price ? product.special_price : product.price
     body = {
@@ -14,7 +14,7 @@ module AcceptPayment
       "merchant_id": merchant_id, # merchant_id obtained from step 1
       "amount_cents": price,
       "currency": 'EGP',
-      "merchant_order_id": order_id,
+      "merchant_order_id": order.id,
       "items": [
         {
           name: product.name,
@@ -22,7 +22,7 @@ module AcceptPayment
         }
       ]
     }
-    if product.require_shipping
+    if product.require_shipping || order.payment_method == 'cash'
       body["shipping_data"] = delivery_payload(shipping_data, user)
     end
     Request.post(url, body)
@@ -47,7 +47,7 @@ module AcceptPayment
         "postal_code": billing_data['postal_code'],
         "city": billing_data['city'],
         "state": billing_data['state'],
-        "country": billing_data['country']
+        "country": user.country
       },
       "currency": 'EGP',
       "integration_id": integration_id, # card integration_id will be provided upon signing up
@@ -81,7 +81,7 @@ module AcceptPayment
       "phone_number": user.mobile,
       "postal_code": shipping_data['postal_code'],
       "city": shipping_data['city'],
-      "country": billing_data['country'],
+      "country": user.country,
       "last_name": user.last_name,
       "state": shipping_data['state']
     }

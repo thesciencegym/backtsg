@@ -14,7 +14,7 @@ class AcceptPaymentController < ApplicationController
         @order.save!
         @product = @order.product
         @user = @order.user
-        assign_vg_credits if @product.credits
+        assign_vg_credits unless @product.require_shipping
       end
       render json: { "transaction status": success }, status: :ok
     else
@@ -35,7 +35,7 @@ class AcceptPaymentController < ApplicationController
         @order.save!
         @product = @order.product
         @user = @order.user
-        assign_vg_credits if @product.credits
+        assign_vg_credits if @product.require_shipping
         render json: { "transaction status": 'success' }, status: :ok
       end
     else
@@ -113,9 +113,11 @@ class AcceptPaymentController < ApplicationController
       @user = @order.user
       create_vg_user unless @user.member_id
     end
-    @product.credits.each do |key, value|
-      response = add_user_credits(key, value)
-      p "credit request sent and result is #{response}"
+    if @product.credits
+      @product.credits.each do |key, value|
+        response = add_user_credits(key, value)
+        p "credit request sent and result is #{response}"
+      end
     end
   end
 end
