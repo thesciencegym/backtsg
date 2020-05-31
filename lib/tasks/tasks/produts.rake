@@ -23,7 +23,7 @@ namespace :products do
                               credits: { "nutrition-session-4": '3' })
     p "#{product.name} is added"
 
-    product = Product.create!(code: '5', name: 'Immunity Enhancing Nutrition Package', price: 60000, duration: 4,
+    product = Product.create!(code: '5', name: 'General Nutrition Program', price: 60000, duration: 4,
                               credits: { "nutrition-session-4": '4'})
     p "#{product.name} is added"
 
@@ -50,6 +50,19 @@ namespace :products do
     p "#{product.name} is added"
 
     product = Product.create!(code: '12', name: 'Online Rehabilitation program-3', price: 350000, duration: 12)
+    p "#{product.name} is added"
+
+
+  end
+
+  task add_products_3: :environment do
+
+    Product.each do |pro|
+      pro.require_shipping = false
+      pro.save
+    end
+
+    product = Product.create!(code: '13', name: 'MyZone Training Belt', price: 250000, require_shipping: true)
     p "#{product.name} is added"
 
 

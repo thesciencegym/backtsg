@@ -36,8 +36,9 @@ class AcceptPaymentController < ApplicationController
         @product = @order.product
         @user = @order.user
         assign_vg_credits unless @product.require_shipping
-        render json: { "transaction status": 'success' }, status: :ok
+        render json: { "transaction status": true }, status: :ok and return
       end
+      render json: { "transaction status": params['obj']['success'] }, status: :ok and return
     else
       render json: "unmatched HMAC", status: :ok
     end

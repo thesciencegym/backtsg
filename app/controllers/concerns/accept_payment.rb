@@ -8,9 +8,10 @@ module AcceptPayment
   def order_regestration(token, merchant_id, product, order, special_price, shipping_data, user)
     url = 'https://accept.paymobsolutions.com/api/ecommerce/orders'
     price = special_price ? product.special_price : product.price
+    is_shipping = product.require_shipping || order.payment_method == 'cash' #enable shipping for cash to just in case
     body = {
       "auth_token": token, # auth token obtained from step1
-      "delivery_needed": product.require_shipping,
+      "delivery_needed": is_shipping,
       "merchant_id": merchant_id, # merchant_id obtained from step 1
       "amount_cents": price,
       "currency": 'EGP',
@@ -22,7 +23,7 @@ module AcceptPayment
         }
       ]
     }
-    if product.require_shipping || order.payment_method == 'cash'
+    if is_shipping
       body["shipping_data"] = delivery_payload(shipping_data, user)
     end
     Request.post(url, body)

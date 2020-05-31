@@ -25,11 +25,11 @@ class UsersController < ApplicationController
     order = order_regestration(authentication['token'], authentication['profile']['id'],
                                @product, @order_record, special_price, params[:billing_data], @user)
 
-    render json: order, status: :ok and return if order.nil? || order['id'].nil?
+    render json: order, status: :unprocessable_entity and return if order.nil? || order['id'].nil?
     @order_record.accept_order_id = order['id']
     @order_record.save!
 
-    integration_id = params[:payment_method] == 'card' ? ENV['ACCEPT_INTEGRATION__CARD_ID'] : ENV['ACCEPT_INTEGRATION__CASH_ID']
+    integration_id = params[:payment_method] == 'card' ? ENV['ACCEPT_INTEGRATION_CARD_ID'] : ENV['ACCEPT_INTEGRATION_CASH_ID']
     @p_token = payment_token(authentication['token'], @order_record, @user,
                              integration_id, params[:billing_data])
     ### payment
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
       @order_record.save!
       render json: {"success": true}, status: :ok
     else
-      render json: {"success": false}, status: :unprocessable_entity
+      render json: {"success": false}, status: :ok
     end
   end
 
