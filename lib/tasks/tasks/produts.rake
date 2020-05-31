@@ -16,7 +16,7 @@ namespace :products do
                                         "nutrition-session-4": '6' })
     p "#{product.name} is added"
 
-    product = Product.create!(code: '3', name: 'Online Classes ', price: 80000, duration: 1)
+    product = Product.create!(code: '3', name: 'Online Classes-1-week', price: 60000, duration: 1)
     p "#{product.name} is added"
 
     product = Product.create!(code: '4', name: 'Pro Athlete Nutrition Package', price: 70000, duration: 6,
@@ -27,16 +27,14 @@ namespace :products do
                               credits: { "nutrition-session-4": '4'})
     p "#{product.name} is added"
 
-    product = Product.create!(code: '6', name: 'One Class', price: 15000)
+    product = Product.create!(code: '6', name: 'One Class', price: 10000)
     p "#{product.name} is added"
 
     product = Product.create!(code: '7', name: 'March To Your Goal', price: 240000, duration: 4,
                               credits: { "nutrition-session-4": '4' }, special_price: 120000)
     p "#{product.name} is added"
-  end
 
-  # new products added 3 may 2020
-  task add_products_2: :environment do
+    # new products added 3 may 2020
     product = Product.create!(code: '8', name: 'Online Superheroes program-12', price: 240000)
     p "#{product.name} is added"
 
@@ -52,9 +50,9 @@ namespace :products do
     product = Product.create!(code: '12', name: 'Online Rehabilitation program-3', price: 350000, duration: 12)
     p "#{product.name} is added"
 
-
   end
 
+  # new products added 31 may 2020
   task add_products_3: :environment do
 
     Product.each do |pro|
@@ -65,6 +63,11 @@ namespace :products do
     product = Product.create!(code: '13', name: 'MyZone Training Belt', price: 250000, require_shipping: true)
     p "#{product.name} is added"
 
+    product = Product.create!(code: '14', name: 'Online Classes-2-week', price: 100000, duration: 2, require_shipping: false)
+    p "#{product.name} is added"
+
+    product = Product.create!(code: '15', name: 'Online Classes-1-month', price: 150000, duration: 4, require_shipping: false)
+    p "#{product.name} is added"
 
   end
 end
