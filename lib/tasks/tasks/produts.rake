@@ -53,9 +53,8 @@ namespace :products do
   end
 
   # new products added 31 may 2020
-  task add_products_3: :environment do
-
-    Product.each do |pro|
+  task add_products_2: :environment do
+    Product.all.each do |pro|
       pro.require_shipping = false
       pro.save
     end
@@ -68,6 +67,74 @@ namespace :products do
 
     product = Product.create!(code: '15', name: 'Online Classes-1-month', price: 150000, duration: 4, require_shipping: false)
     p "#{product.name} is added"
-
   end
+
+    # new products added 1 June 2020
+    task add_products_2: :environment do
+  
+      #individual
+      product = Product.create!(code: '16', name: 'Tsg2go individual 8 sessions', price: 240000, require_shipping: false, 
+      credits: { "nutrition-session-4": '2', "tsg2go-session": '8' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '17', name: 'Tsg2go individual 12 sessions', price: 330000, require_shipping: false, 
+      credits: { "nutrition-session-4": '4', "tsg2go-session": '12' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '18', name: 'Tsg2go individual 16 sessions', price: 400000, require_shipping: false, 
+      credits: { "nutrition-session-4": '6', "tsg2go-session": '16' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '19', name: 'Tsg2go individual 24 sessions', price: 540000, require_shipping: false, 
+      credits: { "nutrition-session-4": '8', "tsg2go-session": '24' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '20', name: 'Tsg2go individual 48 sessions', price: 960000, require_shipping: false, 
+      credits: { "nutrition-session-4": '16', "tsg2go-session": '48' })
+      p "#{product.name} is added"
+
+      # couple
+      product = Product.create!(code: '21', name: 'Tsg2go couple 8 sessions', price: 440000, require_shipping: false, 
+      credits: { "nutrition-session-4": '2', "tsg2go-session": '8' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '22', name: 'Tsg2go couple 12 sessions', price: 600000, require_shipping: false, 
+      credits: { "nutrition-session-4": '4', "tsg2go-session": '12' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '23', name: 'Tsg2go couple 16 sessions', price: 720000, require_shipping: false, 
+      credits: { "nutrition-session-4": '6', "tsg2go-session": '16' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '24', name: 'Tsg2go couple 24 sessions', price: 980000, require_shipping: false, 
+      credits: { "nutrition-session-4": '8', "tsg2go-session": '24' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '25', name: 'Tsg2go couple 48 sessions', price: 1730000, require_shipping: false, 
+      credits: { "nutrition-session-4": '16', "tsg2go-session": '48' })
+      p "#{product.name} is added"
+
+
+      #family
+      product = Product.create!(code: '26', name: 'Tsg2go family 8 sessions', price: 800000, require_shipping: false, 
+      credits: { "nutrition-session-4": '2', "tsg2go-session": '8' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '27', name: 'Tsg2go family 12 sessions', price: 1080000, require_shipping: false, 
+      credits: { "nutrition-session-4": '4', "tsg2go-session": '12' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '28', name: 'Tsg2go family 16 sessions', price: 1300000, require_shipping: false, 
+      credits: { "nutrition-session-4": '6', "tsg2go-session": '16' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '29', name: 'Tsg2go family 24 sessions', price: 1750000, require_shipping: false, 
+      credits: { "nutrition-session-4": '8', "tsg2go-session": '24' })
+      p "#{product.name} is added"
+
+      product = Product.create!(code: '30', name: 'Tsg2go family 48 sessions', price: 3000000, require_shipping: false, 
+      credits: { "nutrition-session-4": '16', "tsg2go-session": '48' })
+      p "#{product.name} is added"
+ 
+    end
 end
