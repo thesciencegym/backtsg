@@ -70,7 +70,7 @@ namespace :products do
   end
 
     # new products added 1 June 2020
-  task add_products_2: :environment do
+  task add_products_3: :environment do
 
     #individual
     product = Product.create!(code: '16', name: 'Tsg2go individual 8 sessions', price: 240000, require_shipping: false, 
