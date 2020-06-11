@@ -37,6 +37,8 @@ class UsersController < ApplicationController
     @order_record.payment_token = @p_token['token']
     @order_record.save!
 
+    puts "@p_token", @p_token
+
     if params[:payment_method] == 'card'
       card_payment
     elsif params[:payment_method] == 'cash'
@@ -46,6 +48,7 @@ class UsersController < ApplicationController
 
   def cash_payment
     pay_cash_res = cash_pay_request(@p_token['token'])
+    puts "cash_payment", pay_cash_res
     if pay_cash_res['pending'] == 'true'
       @order_record.delivery_status = 'Scheduled'
       @order_record.save!
