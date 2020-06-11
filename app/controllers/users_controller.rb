@@ -34,10 +34,10 @@ class UsersController < ApplicationController
                              integration_id, params[:billing_data])
     ### payment
 
+    puts "@p_token", @p_token
+
     @order_record.payment_token = @p_token['token']
     @order_record.save!
-
-    puts "@p_token", @p_token
 
     if params[:payment_method] == 'card'
       card_payment
