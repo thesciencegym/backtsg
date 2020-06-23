@@ -34,6 +34,7 @@ class UsersController < ApplicationController
                              integration_id, params[:billing_data])
     ### payment
 
+    puts "integration_id", integration_id
     puts "@p_token", @p_token
 
     @order_record.payment_token = @p_token['token']

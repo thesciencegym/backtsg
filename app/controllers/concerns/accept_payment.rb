@@ -26,6 +26,8 @@ module AcceptPayment
     if is_shipping
       body["shipping_data"] = delivery_payload(shipping_data, user)
     end
+
+    puts "order_regestration request", body
     Request.post(url, body)
   end
 
@@ -54,6 +56,8 @@ module AcceptPayment
       "integration_id": integration_id, # card integration_id will be provided upon signing up
       "lock_order_when_paid": false
     }
+    puts "payment_token request", body
+
     Request.post(url, body)
   end
 
