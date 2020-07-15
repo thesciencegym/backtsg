@@ -12,7 +12,10 @@ class User < ApplicationRecord
     response = get(@url, sync)
     @users = response['result']
     @users.each do |user|
-      if !User.exists?(email: user['email'])
+      if User.exists?(member_id: user['member_id'])
+        exist_user = User.find_by(member_id: user['member_id'])
+        exist_user.update(email: user['email'], timestamp_edit: user['timestamp_edit']) if exist_user.email != user['email']
+      elsif !User.exists?(email: user['email'])
         new_user = User.create!(first_name: user['firstname'], last_name: user['lastname'],
                             email: user['email'], member_id: user['member_id'],
                             mobile: user['mobile'], vg_user_id: user['user_id'],
